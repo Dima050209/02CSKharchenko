@@ -12,7 +12,7 @@ namespace _02Kharchenko.ViewModels
 
         public ViewModel()
         {
-            _person = new Person();
+           
         }
     }
 }
