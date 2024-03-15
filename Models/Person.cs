@@ -52,15 +52,15 @@ namespace _02Kharchenko
             }
             if (_surname == null)
             {
-                throw new ArgumentNullException(nameof(_name));
+                throw new ArgumentNullException(nameof(_surname));
             }
             if (_email == null)
             {
-                throw new ArgumentNullException(nameof(_name));
+                throw new ArgumentNullException(nameof(_email));
             }
             if (_birthdate == DateTime.MinValue)
             {
-                throw new ArgumentNullException(nameof(_name));
+                throw new ArgumentNullException(nameof(_birthdate));
             }
             _isAdult = _goroscope.calculateAge(_birthdate) >= 18;
             _sunSign = _goroscope.calculateWesternZodiac(_birthdate);

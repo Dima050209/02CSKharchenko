@@ -25,7 +25,7 @@ namespace _02Kharchenko.Views
         public PersonDetailsView()
         {
             InitializeComponent();
-            _viewModel = new ViewModel();
+            DataContext = _viewModel = new ViewModel();
         }
 
         private void BProcess_Click(object sender, RoutedEventArgs e)

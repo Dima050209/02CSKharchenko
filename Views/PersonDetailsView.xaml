@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:_02Kharchenko.Views"
+             xmlns:local="clr-namespace:_02Kharchenko.Views" xmlns:viewmodels="clr-namespace:_02Kharchenko.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="500">
     <Grid>
@@ -28,13 +28,13 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0" Grid.Column="0" Text="Ім'я:" Margin="10"></TextBlock>
-        <TextBox Name="TbName" Grid.Row="0" Grid.Column="1" Text="{Binding Name}" Margin="5"></TextBox>
+        <TextBox Name="TbName" Grid.Row="0" Grid.Column="1" Text="{Binding Name, Mode=OneWayToSource}" Margin="5"></TextBox>
 
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Прізвище:" Margin="10"></TextBlock>
-        <TextBox Name="TbSurname" Grid.Row="1" Grid.Column="1" Text="{Binding Surname}" Margin="5"></TextBox>
+        <TextBox Name="TbSurname" Grid.Row="1" Grid.Column="1" Text="{Binding Surname, Mode=OneWayToSource}" Margin="5"></TextBox>
 
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Email:" Margin="10"></TextBlock>
-        <TextBox Name="TbEmail" Grid.Row="2" Grid.Column="1" Text="{Binding Email}" Margin="5"></TextBox>
+        <TextBox Name="TbEmail" Grid.Row="2" Grid.Column="1" Text="{Binding Email, Mode=OneWayToSource}" Margin="5"></TextBox>
 
         <TextBlock Grid.Row="3" Grid.Column="0" Text="Дата народження:" Margin="10" HorizontalAlignment="Left"></TextBlock>
         <DatePicker Grid.Row="3" Grid.Column="1" Width="230"  Margin="5" SelectedDate="{Binding Birthdate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxWidth="300" HorizontalAlignment="Left"></DatePicker>
