@@ -19,7 +19,7 @@ namespace _02Kharchenko.ViewModels
             _person = new Person(null, null, null, DateTime.MinValue);
         }
 
-        public void Process()
+        public void Proceed()
         {
             if (_person.Name == null)
             {
@@ -37,7 +37,16 @@ namespace _02Kharchenko.ViewModels
             {
                 throw new ArgumentNullException(nameof(_person.Birthdate));
             }
-          
+
+            _person.Proceed();
+            OnPropertyChanged(nameof(Name));
+            OnPropertyChanged(nameof(Surname));
+            OnPropertyChanged(nameof(Email));
+            OnPropertyChanged(nameof(Birthdate));
+            OnPropertyChanged(nameof(IsAdult));
+            OnPropertyChanged(nameof(SunSign));
+            OnPropertyChanged(nameof(ChineseSign));
+            OnPropertyChanged(nameof(IsBirthday));
         }
 
         public string Name
@@ -46,7 +55,6 @@ namespace _02Kharchenko.ViewModels
             set
             {
                 _person.Name = value;
-                //OnPropertyChanged(nameof(Name));
             }
         }
 

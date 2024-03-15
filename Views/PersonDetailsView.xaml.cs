@@ -30,7 +30,22 @@ namespace _02Kharchenko.Views
 
         private void BProcess_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                _viewModel.Proceed();
+                if(_viewModel.IsBirthday)
+                {
+                    MessageBox.Show("З днем народження!");
+                }
+            } 
+            catch(ArgumentNullException)
+            {
+                MessageBox.Show("Потрібно заповнити всі поля.");
+            } 
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

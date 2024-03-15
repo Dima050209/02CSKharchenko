@@ -44,7 +44,7 @@ namespace _02Kharchenko
             _goroscope = new Goroscope();
         }
 
-        public void Process()
+        public void Proceed()
         {
             if(_name == null)
             {
@@ -62,6 +62,9 @@ namespace _02Kharchenko
             {
                 throw new ArgumentNullException(nameof(_birthdate));
             }
+            
+            _goroscope.checkBirthday(_birthdate);
+           
             _isAdult = _goroscope.calculateAge(_birthdate) >= 18;
             _sunSign = _goroscope.calculateWesternZodiac(_birthdate);
             _chineeseSign = _goroscope.calculateChineseZodiac(_birthdate);
