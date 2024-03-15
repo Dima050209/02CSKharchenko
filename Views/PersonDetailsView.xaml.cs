@@ -32,6 +32,7 @@ namespace _02Kharchenko.Views
         {
             try
             {
+                this.IsEnabled = false;
                 _viewModel.Proceed();
                 if(_viewModel.IsBirthday)
                 {
@@ -46,6 +47,7 @@ namespace _02Kharchenko.Views
             {
                 MessageBox.Show(ex.Message);
             }
+            this.IsEnabled = true;
         }
     }
 }

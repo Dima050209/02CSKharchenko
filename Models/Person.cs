@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace _02Kharchenko
@@ -62,13 +63,35 @@ namespace _02Kharchenko
             {
                 throw new ArgumentNullException(nameof(_birthdate));
             }
-            
+
             _goroscope.checkBirthday(_birthdate);
-           
-            _isAdult = _goroscope.calculateAge(_birthdate) >= 18;
-            _sunSign = _goroscope.calculateWesternZodiac(_birthdate);
-            _chineeseSign = _goroscope.calculateChineseZodiac(_birthdate);
-            _isBirthday = _goroscope.isBirthday(_birthdate.Month, _birthdate.Day);
+
+            Thread thread1 = new Thread(() => {
+                _isAdult = _goroscope.calculateAge(_birthdate) >= 18;
+            });
+
+            Thread thread2 = new Thread(() =>
+            {
+                _chineeseSign = _goroscope.calculateChineseZodiac(_birthdate);
+            });
+
+            Thread thread3 = new Thread(() => {
+                _sunSign = _goroscope.calculateWesternZodiac(_birthdate);
+            });
+
+            Thread thread4 = new Thread(() => {
+                _isBirthday = _goroscope.isBirthday(_birthdate.Month, _birthdate.Day);
+            });
+
+            thread1.Start();
+            thread2.Start();
+            thread3.Start();
+            thread4.Start();
+
+            thread1.Join();
+            thread2.Join();
+            thread3.Join();
+            thread4.Join();
         }
 
         public string Name

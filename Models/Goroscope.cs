@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace _02Kharchenko.Models
@@ -10,10 +11,12 @@ namespace _02Kharchenko.Models
     {
         public bool isBirthday(int month, int day)
         {
+            Thread.Sleep(1000);
             return month == DateTime.Today.Month && day == DateTime.Today.Day;
         }
         public string calculateChineseZodiac(DateTime birthday)
         {
+            Thread.Sleep(3000);
             int year = birthday.Year;
             if (year < 1924)
             {
@@ -28,6 +31,7 @@ namespace _02Kharchenko.Models
         }
         public string calculateWesternZodiac(DateTime birthday)
         {
+            Thread.Sleep(500);
             int day = birthday.Day;
             int month = birthday.Month;
 
@@ -60,6 +64,7 @@ namespace _02Kharchenko.Models
         }
         public int calculateAge(DateTime birthday)
         {
+            Thread.Sleep(2000);
             int age = DateTime.Today.Year - birthday.Year;
             if (birthday.Month > DateTime.Today.Month)
             {
