@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _02Kharchenko.CustomExceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ namespace _02Kharchenko.Tools
         }
         public static string calculateChineseZodiac(DateTime birthday)
         {
+            checkBirthday(birthday);
             Thread.Sleep(3000);
             int year = birthday.Year;
             if (year < 1924)
@@ -31,6 +33,7 @@ namespace _02Kharchenko.Tools
         }
         public static string calculateWesternZodiac(DateTime birthday)
         {
+            checkBirthday(birthday);
             Thread.Sleep(500);
             int day = birthday.Day;
             int month = birthday.Month;
@@ -80,11 +83,11 @@ namespace _02Kharchenko.Tools
         {
             if (birthday > DateTime.UtcNow)
             {
-                throw new Exception("Picked date from the future.");
+                throw new NonExistingBirthdateException(birthday);
             }
             if (calculateAge(birthday) > 135)
             {
-                throw new Exception("You are > 135 years old");
+                throw new ExpiredBirthdateException(birthday);
             }
         }
     }

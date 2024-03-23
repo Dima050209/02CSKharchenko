@@ -1,4 +1,5 @@
-﻿using _02Kharchenko.Tools;
+﻿using _02Kharchenko.CustomExceptions;
+using _02Kharchenko.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -52,81 +53,105 @@ namespace _02Kharchenko.ViewModels
             OnPropertyChanged(nameof(ChineseSign));
             OnPropertyChanged(nameof(IsAdult));
             OnPropertyChanged(nameof(IsBirthday));
-
-            if (_person.Name == null)
-            {
-                throw new ArgumentNullException(nameof(_person.Name));
-            }
-            if (_person.Surname == null)
-            {
-                throw new ArgumentNullException(nameof(_person.Surname));
-            }
-            if (_person.Email == null)
-            {
-                throw new ArgumentNullException(nameof(_person.Email));
-            }
-            if (_person.Birthdate == null)
-            {
-                throw new ArgumentNullException(nameof(_person.Birthdate));
-            }
             try
-            {
+            { 
+                if (_person.Name == null)
+                {
+                    throw new ArgumentNullException(nameof(_person.Name));
+                }
+                if (_person.Surname == null)
+                {
+                    throw new ArgumentNullException(nameof(_person.Surname));
+                }
+                if (_person.Birthdate == null)
+                {
+                    throw new ArgumentNullException(nameof(_person.Birthdate));
+                }
+                 IsValidEmail();
+
                 Goroscope.checkBirthday((DateTime)_person.Birthdate);
                 if (Goroscope.isBirthday(((DateTime)_person.Birthdate).Month, ((DateTime)_person.Birthdate).Day))
                 {
                     System.Windows.MessageBox.Show("З Днем народження!!!");
                 }
+
+                Thread thread1 = new Thread(() =>
+                {
+                    IsAdult = Goroscope.calculateAge((DateTime)_person.Birthdate) >= 18;
+                });
+
+                Thread thread2 = new Thread(() =>
+                {
+                    SunSign = Goroscope.calculateWesternZodiac((DateTime)_person.Birthdate);
+                });
+
+                Thread thread3 = new Thread(() =>
+                {
+                    ChineseSign = Goroscope.calculateChineseZodiac((DateTime)_person.Birthdate);
+                });
+
+                Thread thread4 = new Thread(() =>
+                {
+                    IsBirthday = Goroscope.isBirthday(((DateTime)_person.Birthdate).Month, ((DateTime)_person.Birthdate).Day);
+                });
+
+                thread1.Start();
+                thread2.Start();
+                thread3.Start();
+                thread4.Start();
+
+                OnPropertyChanged(nameof(Name));
+                OnPropertyChanged(nameof(Surname));
+                OnPropertyChanged(nameof(Email));
+                OnPropertyChanged(nameof(Birthdate));
+
+                thread1.Join();
+                thread2.Join();
+                thread3.Join();
+                thread4.Join();
+
+                OnPropertyChanged(nameof(IsAdult));
+                OnPropertyChanged(nameof(SunSign));
+                OnPropertyChanged(nameof(ChineseSign));
+                OnPropertyChanged(nameof(IsBirthday));
+
+            }
+            catch (ExpiredBirthdateException e) when (e is ExpiredBirthdateException || e is NonExistingBirthdateException)
+            {
+                System.Windows.MessageBox.Show(e.Message);
+                Birthdate = null;
+                OnPropertyChanged(nameof(Birthdate));
+            }
+            catch(IncorrectEmailException e)
+            {
+                System.Windows.MessageBox.Show(e.Message);
+                Email = "";
+                OnPropertyChanged(nameof(Email));
             }
             catch (Exception e)
             {
                 System.Windows.MessageBox.Show(e.Message);
-                _processInExecution = false;
                 return;
             }
-
-
-            Thread thread1 = new Thread(() =>
+            finally
             {
-                IsAdult = Goroscope.calculateAge((DateTime)_person.Birthdate) >= 18;
-            });
+                _processInExecution = false;
+            }
 
-            Thread thread2 = new Thread(() =>
-            {
-                SunSign = Goroscope.calculateWesternZodiac((DateTime)_person.Birthdate);
-            });
+        }
 
-            Thread thread3 = new Thread(() =>
-            {
-                ChineseSign = Goroscope.calculateChineseZodiac((DateTime)_person.Birthdate);
-            });
+        private void IsValidEmail()
+        {
+            if (string.IsNullOrWhiteSpace(_person.Email))
+                throw new ArgumentNullException(nameof(_person.Email));
 
-            Thread thread4 = new Thread(() =>
-            {
-                IsBirthday = Goroscope.isBirthday(((DateTime)_person.Birthdate).Month, ((DateTime)_person.Birthdate).Day);
-            });
+            string[] parts = _person.Email.Split('@');
+            if (parts.Length != 2)
+                throw new IncorrectEmailException(_person.Email, " Email must stick to format 'joeschmoe@mydomain.com' .");
 
-            thread1.Start();
-            thread2.Start();
-            thread3.Start();
-            thread4.Start();
-
-            OnPropertyChanged(nameof(Name));
-            OnPropertyChanged(nameof(Surname));
-            OnPropertyChanged(nameof(Email));
-            OnPropertyChanged(nameof(Birthdate));
-
-            thread1.Join();
-            thread2.Join();
-            thread3.Join();
-            thread4.Join();
-
-            OnPropertyChanged(nameof(IsAdult));
-            OnPropertyChanged(nameof(SunSign));
-            OnPropertyChanged(nameof(ChineseSign));
-            OnPropertyChanged(nameof(IsBirthday));
-
-            _processInExecution = false;
-          
+            string[] middleEnd = parts[1].Split('.');
+            if (middleEnd.Length != 2)
+                throw new IncorrectEmailException(_person.Email, " Email must stick to format 'joeschmoe@mydomain.com' .");
         }
 
         public string Name
