@@ -27,27 +27,5 @@ namespace _02Kharchenko.Views
             InitializeComponent();
             DataContext = _viewModel = new PersonViewModel();
         }
-
-        private void BProcess_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                this.IsEnabled = false;
-                _viewModel.Proceed();
-                //if(_viewModel.IsBirthday)
-                //{
-                //    MessageBox.Show("З днем народження!");
-                //}
-            } 
-            catch(ArgumentNullException)
-            {
-                MessageBox.Show("Потрібно заповнити всі поля.");
-            } 
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            this.IsEnabled = true;
-        }
     }
 }

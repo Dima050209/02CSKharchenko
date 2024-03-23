@@ -16,22 +16,43 @@ namespace _02Kharchenko.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
         private Person _person;
-        private ICommand _proceed = new RelayCommand(PrivateProceed);
+        private RelayCommand _proceedCommand;
+        private bool _processInExecution;
 
         public PersonViewModel()
         {
-            _person = new Person(null, null, null, DateTime.MinValue);
+            _person = new Person(null, null, null, null);
+            _processInExecution = false;
         }
 
-        public ICommand Proceed
+        public RelayCommand ProceedCommand
         {
             get
             {
-                return _proceed;
+                return _proceedCommand ??= new RelayCommand(Proceed, CanExecute);
             }
         }
-        private void PrivateProceed()
+
+        private bool CanExecute()
         {
+            return !String.IsNullOrWhiteSpace(Name) && !String.IsNullOrWhiteSpace(Surname)
+                && !String.IsNullOrWhiteSpace(Email) && (Birthdate != null) && !_processInExecution;
+        }
+        private void Proceed()
+        {
+            if (_processInExecution)
+                return;
+            _processInExecution = true;
+
+            SunSign = "";
+            ChineseSign = "";
+            IsAdult = null;
+            IsBirthday = null;
+            OnPropertyChanged(nameof(SunSign));
+            OnPropertyChanged(nameof(ChineseSign));
+            OnPropertyChanged(nameof(IsAdult));
+            OnPropertyChanged(nameof(IsBirthday));
+
             if (_person.Name == null)
             {
                 throw new ArgumentNullException(nameof(_person.Name));
@@ -52,26 +73,23 @@ namespace _02Kharchenko.ViewModels
             Thread thread1 = new Thread(() =>
             {
                 IsAdult = Goroscope.calculateAge((DateTime)_person.Birthdate) >= 18;
-                OnPropertyChanged(nameof(IsAdult));
             });
 
             Thread thread2 = new Thread(() =>
             {
                 SunSign = Goroscope.calculateWesternZodiac((DateTime)_person.Birthdate);
-                OnPropertyChanged(nameof(SunSign));
             });
 
             Thread thread3 = new Thread(() =>
             {
                 ChineseSign = Goroscope.calculateChineseZodiac((DateTime)_person.Birthdate);
-                OnPropertyChanged(nameof(ChineseSign));
             });
 
             Thread thread4 = new Thread(() =>
             {
                 IsBirthday = Goroscope.isBirthday(((DateTime)_person.Birthdate).Month, ((DateTime)_person.Birthdate).Day);
-                OnPropertyChanged(nameof(IsBirthday));
             });
+
             thread1.Start();
             thread2.Start();
             thread3.Start();
@@ -81,6 +99,19 @@ namespace _02Kharchenko.ViewModels
             OnPropertyChanged(nameof(Surname));
             OnPropertyChanged(nameof(Email));
             OnPropertyChanged(nameof(Birthdate));
+
+            thread1.Join();
+            thread2.Join();
+            thread3.Join();
+            thread4.Join();
+
+            OnPropertyChanged(nameof(IsAdult));
+            OnPropertyChanged(nameof(SunSign));
+            OnPropertyChanged(nameof(ChineseSign));
+            OnPropertyChanged(nameof(IsBirthday));
+
+            _processInExecution = false;
+          
         }
 
         public string Name

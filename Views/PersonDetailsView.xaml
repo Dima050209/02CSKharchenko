@@ -28,18 +28,18 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0" Grid.Column="0" Text="Ім'я:" Margin="10"></TextBlock>
-        <TextBox Name="TbName" Grid.Row="0" Grid.Column="1" Text="{Binding Name, Mode=OneWayToSource}" Margin="5"></TextBox>
+        <TextBox Name="TbName" Grid.Row="0" Grid.Column="1" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"></TextBox>
 
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Прізвище:" Margin="10"></TextBlock>
-        <TextBox Name="TbSurname" Grid.Row="1" Grid.Column="1" Text="{Binding Surname, Mode=OneWayToSource}" Margin="5"></TextBox>
+        <TextBox Name="TbSurname" Grid.Row="1" Grid.Column="1" Text="{Binding Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"></TextBox>
 
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Email:" Margin="10"></TextBlock>
-        <TextBox Name="TbEmail" Grid.Row="2" Grid.Column="1" Text="{Binding Email, Mode=OneWayToSource}" Margin="5"></TextBox>
+        <TextBox Name="TbEmail" Grid.Row="2" Grid.Column="1" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"></TextBox>
 
         <TextBlock Grid.Row="3" Grid.Column="0" Text="Дата народження:" Margin="10" HorizontalAlignment="Left"></TextBlock>
-        <DatePicker Grid.Row="3" Grid.Column="1" Width="230"  Margin="5" SelectedDate="{Binding Birthdate, Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}" MaxWidth="300" HorizontalAlignment="Left"></DatePicker>
+        <DatePicker Grid.Row="3" Grid.Column="1" Width="230"  Margin="5" SelectedDate="{Binding Birthdate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxWidth="300" HorizontalAlignment="Left"></DatePicker>
 
-        <Button  Name="BProcess" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="Process" Click="BProcess_Click"></Button>
+        <Button  Name="BProcess" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="Process" Command="{Binding ProceedCommand}"></Button>
 
         <TextBlock Grid.Row="5" Grid.Column="0" Text="Ім'я:" Margin="5"></TextBlock>
         <TextBlock Grid.Row="6" Grid.Column="0" Text="Прізвище:" Margin="5"></TextBlock>
