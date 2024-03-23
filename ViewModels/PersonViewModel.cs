@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace _02Kharchenko.ViewModels
 {
@@ -15,13 +16,21 @@ namespace _02Kharchenko.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
         private Person _person;
+        private ICommand _proceed = new RelayCommand(PrivateProceed);
 
         public PersonViewModel()
         {
             _person = new Person(null, null, null, DateTime.MinValue);
         }
 
-        public void Proceed()
+        public ICommand Proceed
+        {
+            get
+            {
+                return _proceed;
+            }
+        }
+        private void PrivateProceed()
         {
             if (_person.Name == null)
             {
