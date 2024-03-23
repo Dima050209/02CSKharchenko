@@ -1,5 +1,4 @@
-﻿using _02Kharchenko.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,23 +9,21 @@ namespace _02Kharchenko
 {
     class Person
     {
-        private Goroscope _goroscope;
         private string _name;
         private string _surname;
         private string _email;
-        private DateTime _birthdate;
-        private bool _isAdult;
+        private DateTime? _birthdate = null;
+        private bool? _isAdult = null;
         private string _sunSign;
         private string _chineeseSign;
-        private bool _isBirthday;
+        private bool? _isBirthday = null;
 
-        public Person(string name, string surname, string email, DateTime birthdate)
+        public Person(string name, string surname, string email, DateTime? birthdate)
         {
             _name = name;
             _surname = surname;
             _email = email;
             _birthdate = birthdate;
-            _goroscope = new Goroscope();
         }
 
         public Person(string name, string surname, string email)
@@ -34,66 +31,14 @@ namespace _02Kharchenko
             _name = name;
             _surname = surname;
             _email = email;
-            _goroscope = new Goroscope();
         }
 
-        public Person(string name, string surname, DateTime birthdate)
+        public Person(string name, string surname, DateTime? birthdate)
         {
             _name = name;
             _surname = surname;
             _birthdate = birthdate;
-            _goroscope = new Goroscope();
         }
-
-        public void Proceed()
-        {
-            if(_name == null)
-            {
-                throw new ArgumentNullException(nameof(_name));
-            }
-            if (_surname == null)
-            {
-                throw new ArgumentNullException(nameof(_surname));
-            }
-            if (_email == null)
-            {
-                throw new ArgumentNullException(nameof(_email));
-            }
-            if (_birthdate == DateTime.MinValue)
-            {
-                throw new ArgumentNullException(nameof(_birthdate));
-            }
-
-            _goroscope.checkBirthday(_birthdate);
-
-            Thread thread1 = new Thread(() => {
-                _isAdult = _goroscope.calculateAge(_birthdate) >= 18;
-            });
-
-            Thread thread2 = new Thread(() =>
-            {
-                _chineeseSign = _goroscope.calculateChineseZodiac(_birthdate);
-            });
-
-            Thread thread3 = new Thread(() => {
-                _sunSign = _goroscope.calculateWesternZodiac(_birthdate);
-            });
-
-            Thread thread4 = new Thread(() => {
-                _isBirthday = _goroscope.isBirthday(_birthdate.Month, _birthdate.Day);
-            });
-
-            thread1.Start();
-            thread2.Start();
-            thread3.Start();
-            thread4.Start();
-
-            thread1.Join();
-            thread2.Join();
-            thread3.Join();
-            thread4.Join();
-        }
-
         public string Name
         {
             get { return _name; }
@@ -123,7 +68,7 @@ namespace _02Kharchenko
 
         }
 
-        public DateTime Birthdate
+        public DateTime? Birthdate
         {
             get { return _birthdate; }
             set
@@ -132,10 +77,10 @@ namespace _02Kharchenko
             }
         }
 
-        public bool IsAdult
+        public bool? IsAdult
         {
             get { return _isAdult; }
-            private set
+            set
             {
                 _isAdult = value;
             }
@@ -144,7 +89,7 @@ namespace _02Kharchenko
         public string SunSign
         {
             get { return _sunSign; }
-            private set
+            set
             {
                 _sunSign = value;
             }
@@ -153,16 +98,16 @@ namespace _02Kharchenko
         public string ChineseSign
         {
             get { return _chineeseSign; }
-            private set
+            set
             {
                 _chineeseSign = value;
             }
         }
 
-        public bool IsBirthday
+        public bool? IsBirthday
         {
             get { return _isBirthday; }
-            private set
+            set
             {
                 _isBirthday = value;
             }

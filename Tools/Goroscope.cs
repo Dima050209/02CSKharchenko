@@ -5,16 +5,16 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace _02Kharchenko.Models
+namespace _02Kharchenko.Tools
 {
     class Goroscope
     {
-        public bool isBirthday(int month, int day)
+        public static bool isBirthday(int month, int day)
         {
             Thread.Sleep(1000);
             return month == DateTime.Today.Month && day == DateTime.Today.Day;
         }
-        public string calculateChineseZodiac(DateTime birthday)
+        public static string calculateChineseZodiac(DateTime birthday)
         {
             Thread.Sleep(3000);
             int year = birthday.Year;
@@ -29,7 +29,7 @@ namespace _02Kharchenko.Models
 
             return chineseZodiacSigns[offset];
         }
-        public string calculateWesternZodiac(DateTime birthday)
+        public static string calculateWesternZodiac(DateTime birthday)
         {
             Thread.Sleep(500);
             int day = birthday.Day;
@@ -62,7 +62,7 @@ namespace _02Kharchenko.Models
             else
                 return "";
         }
-        public int calculateAge(DateTime birthday)
+        public static int calculateAge(DateTime birthday)
         {
             Thread.Sleep(2000);
             int age = DateTime.Today.Year - birthday.Year;
@@ -76,7 +76,7 @@ namespace _02Kharchenko.Models
             }
             return age;
         }
-        public void checkBirthday(DateTime birthday)
+        public static void checkBirthday(DateTime birthday)
         {
             if (birthday > DateTime.UtcNow)
             {

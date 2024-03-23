@@ -21,10 +21,10 @@ namespace _02Kharchenko
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ViewModel _viewModel;
+        //private ViewModel _viewModel;
         public MainWindow()
         {
-            _viewModel = new ViewModel();
+            //_viewModel = new ViewModel();
             InitializeComponent();
         }
 

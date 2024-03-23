@@ -37,7 +37,7 @@
         <TextBox Name="TbEmail" Grid.Row="2" Grid.Column="1" Text="{Binding Email, Mode=OneWayToSource}" Margin="5"></TextBox>
 
         <TextBlock Grid.Row="3" Grid.Column="0" Text="Дата народження:" Margin="10" HorizontalAlignment="Left"></TextBlock>
-        <DatePicker Grid.Row="3" Grid.Column="1" Width="230"  Margin="5" SelectedDate="{Binding Birthdate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxWidth="300" HorizontalAlignment="Left"></DatePicker>
+        <DatePicker Grid.Row="3" Grid.Column="1" Width="230"  Margin="5" SelectedDate="{Binding Birthdate, Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}" MaxWidth="300" HorizontalAlignment="Left"></DatePicker>
 
         <Button  Name="BProcess" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="Process" Click="BProcess_Click"></Button>
 

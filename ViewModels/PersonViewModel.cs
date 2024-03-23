@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _02Kharchenko.Tools;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace _02Kharchenko.ViewModels
 {
-    class ViewModel : INotifyPropertyChanged
+    class PersonViewModel : INotifyPropertyChanged
     {
 
         public event PropertyChangedEventHandler? PropertyChanged;
         private Person _person;
 
-        public ViewModel()
+        public PersonViewModel()
         {
             _person = new Person(null, null, null, DateTime.MinValue);
         }
@@ -37,8 +38,12 @@ namespace _02Kharchenko.ViewModels
             {
                 throw new ArgumentNullException(nameof(_person.Birthdate));
             }
+            IsAdult = Goroscope.calculateAge((DateTime)_person.Birthdate) >= 18;
+            SunSign = Goroscope.calculateWesternZodiac((DateTime)_person.Birthdate);
+            ChineseSign = Goroscope.calculateChineseZodiac((DateTime)_person.Birthdate);
+            IsBirthday = Goroscope.isBirthday(((DateTime)_person.Birthdate).Month, ((DateTime)_person.Birthdate).Day);
 
-            _person.Proceed();
+          
             OnPropertyChanged(nameof(Name));
             OnPropertyChanged(nameof(Surname));
             OnPropertyChanged(nameof(Email));
@@ -51,7 +56,10 @@ namespace _02Kharchenko.ViewModels
 
         public string Name
         {
-            get { return _person.Name; }
+            get
+            { 
+                return _person.Name; 
+            }
             set
             {
                 _person.Name = value;
@@ -60,7 +68,10 @@ namespace _02Kharchenko.ViewModels
 
         public string Surname
         {
-            get { return _person.Surname; }
+            get 
+            {
+                return _person.Surname;
+            }
             set
             {
                 _person.Surname = value;
@@ -70,7 +81,10 @@ namespace _02Kharchenko.ViewModels
 
         public string Email
         {
-            get { return _person.Email; }
+            get
+            {
+                return _person.Email; 
+            }
             set
             {
                 _person.Email = value;
@@ -78,37 +92,63 @@ namespace _02Kharchenko.ViewModels
 
         }
 
-        public DateTime Birthdate
+        public DateTime? Birthdate
         {
-            get { return _person.Birthdate; }
+            get
+            {
+                return _person.Birthdate;
+            }
             set
             {
                 _person.Birthdate = value;
             }
         }
 
-        public bool IsAdult
+        public bool? IsAdult
         {
-            get { return _person.IsAdult; }
-            private set { }
+            get { 
+                return _person.IsAdult;
+            }
+            private set
+            {
+                _person.IsAdult = value;
+            }
         }
 
         public string SunSign
         {
-            get { return _person.SunSign; }
-            private set { }
+            get
+            { 
+                return _person.SunSign; 
+            }
+            private set 
+            {
+                _person.SunSign = value;
+            }
         }
 
         public string ChineseSign
         {
-            get { return _person.ChineseSign; }
-            private set { }
+            get 
+            { 
+                return _person.ChineseSign;
+            }
+            private set
+            {
+                _person.ChineseSign = value;
+            }
         }
 
-        public bool IsBirthday
+        public bool? IsBirthday
         {
-            get { return _person.IsBirthday; }
-            private set { }
+            get 
+            {
+                return _person.IsBirthday;
+            }
+            private set
+            {
+                _person.IsBirthday = value;
+            }
         }
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {

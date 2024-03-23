@@ -21,11 +21,11 @@ namespace _02Kharchenko.Views
     /// </summary>
     public partial class PersonDetailsView : UserControl
     {
-        ViewModel _viewModel;
+        PersonViewModel _viewModel;
         public PersonDetailsView()
         {
             InitializeComponent();
-            DataContext = _viewModel = new ViewModel();
+            DataContext = _viewModel = new PersonViewModel();
         }
 
         private void BProcess_Click(object sender, RoutedEventArgs e)
@@ -34,10 +34,10 @@ namespace _02Kharchenko.Views
             {
                 this.IsEnabled = false;
                 _viewModel.Proceed();
-                if(_viewModel.IsBirthday)
-                {
-                    MessageBox.Show("З днем народження!");
-                }
+                //if(_viewModel.IsBirthday)
+                //{
+                //    MessageBox.Show("З днем народження!");
+                //}
             } 
             catch(ArgumentNullException)
             {
