@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace _02Kharchenko.ViewModels
@@ -38,20 +39,39 @@ namespace _02Kharchenko.ViewModels
             {
                 throw new ArgumentNullException(nameof(_person.Birthdate));
             }
-            IsAdult = Goroscope.calculateAge((DateTime)_person.Birthdate) >= 18;
-            SunSign = Goroscope.calculateWesternZodiac((DateTime)_person.Birthdate);
-            ChineseSign = Goroscope.calculateChineseZodiac((DateTime)_person.Birthdate);
-            IsBirthday = Goroscope.isBirthday(((DateTime)_person.Birthdate).Month, ((DateTime)_person.Birthdate).Day);
 
-          
+            Thread thread1 = new Thread(() =>
+            {
+                IsAdult = Goroscope.calculateAge((DateTime)_person.Birthdate) >= 18;
+                OnPropertyChanged(nameof(IsAdult));
+            });
+
+            Thread thread2 = new Thread(() =>
+            {
+                SunSign = Goroscope.calculateWesternZodiac((DateTime)_person.Birthdate);
+                OnPropertyChanged(nameof(SunSign));
+            });
+
+            Thread thread3 = new Thread(() =>
+            {
+                ChineseSign = Goroscope.calculateChineseZodiac((DateTime)_person.Birthdate);
+                OnPropertyChanged(nameof(ChineseSign));
+            });
+
+            Thread thread4 = new Thread(() =>
+            {
+                IsBirthday = Goroscope.isBirthday(((DateTime)_person.Birthdate).Month, ((DateTime)_person.Birthdate).Day);
+                OnPropertyChanged(nameof(IsBirthday));
+            });
+            thread1.Start();
+            thread2.Start();
+            thread3.Start();
+            thread4.Start();
+
             OnPropertyChanged(nameof(Name));
             OnPropertyChanged(nameof(Surname));
             OnPropertyChanged(nameof(Email));
             OnPropertyChanged(nameof(Birthdate));
-            OnPropertyChanged(nameof(IsAdult));
-            OnPropertyChanged(nameof(SunSign));
-            OnPropertyChanged(nameof(ChineseSign));
-            OnPropertyChanged(nameof(IsBirthday));
         }
 
         public string Name
