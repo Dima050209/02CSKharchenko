@@ -65,10 +65,25 @@ namespace _02Kharchenko.ViewModels
             {
                 throw new ArgumentNullException(nameof(_person.Email));
             }
-            if (_person.Birthdate == DateTime.MinValue)
+            if (_person.Birthdate == null)
             {
                 throw new ArgumentNullException(nameof(_person.Birthdate));
             }
+            try
+            {
+                Goroscope.checkBirthday((DateTime)_person.Birthdate);
+                if (Goroscope.isBirthday(((DateTime)_person.Birthdate).Month, ((DateTime)_person.Birthdate).Day))
+                {
+                    System.Windows.MessageBox.Show("З Днем народження!!!");
+                }
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show(e.Message);
+                _processInExecution = false;
+                return;
+            }
+
 
             Thread thread1 = new Thread(() =>
             {
