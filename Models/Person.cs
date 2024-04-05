@@ -1,4 +1,6 @@
-﻿using System;
+﻿using _02Kharchenko.CustomExceptions;
+using _02Kharchenko.Tools;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace _02Kharchenko
 {
-    class Person
+    public class Person
     {
         private string _name;
         private string _surname;
@@ -63,17 +65,43 @@ namespace _02Kharchenko
             get { return _email; }
             set
             {
+                checkEmail();
                 _email = value;
             }
 
         }
 
+        private void checkEmail()
+        {
+            if (string.IsNullOrWhiteSpace(Email))
+                throw new ArgumentNullException(nameof(Email));
+
+            string[] parts = Email.Split('@');
+            if (parts.Length != 2)
+                throw new IncorrectEmailException(Email, " Email must stick to format 'joeschmoe@mydomain.com' .");
+
+            string[] middleEnd = parts[1].Split('.');
+            if (middleEnd.Length != 2)
+                throw new IncorrectEmailException(Email, " Email must stick to format 'joeschmoe@mydomain.com' .");
+        }
         public DateTime? Birthdate
         {
             get { return _birthdate; }
             set
             {
                 _birthdate = value;
+            }
+        }
+
+        public void checkBirthdate()
+        {
+            if (Birthdate > DateTime.UtcNow)
+            {
+                throw new Exception("Picked date from the future.");
+            }
+            if (Goroscope.calculateAge((DateTime)Birthdate) > 135)
+            {
+                throw new Exception("You are > 135 years old");
             }
         }
 

@@ -12,13 +12,13 @@ namespace _02Kharchenko.Tools
     {
         public static bool isBirthday(int month, int day)
         {
-            Thread.Sleep(1000);
+           
             return month == DateTime.Today.Month && day == DateTime.Today.Day;
         }
         public static string calculateChineseZodiac(DateTime birthday)
         {
             checkBirthday(birthday);
-            Thread.Sleep(3000);
+           
             int year = birthday.Year;
             if (year < 1924)
             {
@@ -34,7 +34,7 @@ namespace _02Kharchenko.Tools
         public static string calculateWesternZodiac(DateTime birthday)
         {
             checkBirthday(birthday);
-            Thread.Sleep(500);
+           
             int day = birthday.Day;
             int month = birthday.Month;
 
@@ -67,7 +67,7 @@ namespace _02Kharchenko.Tools
         }
         public static int calculateAge(DateTime birthday)
         {
-            Thread.Sleep(2000);
+           
             int age = DateTime.Today.Year - birthday.Year;
             if (birthday.Month > DateTime.Today.Month)
             {
