@@ -61,8 +61,12 @@ namespace _02Kharchenko.ViewModels
                 People.RemoveAt(index);
             }
             _selectedPerson = null;
+            List<Person> peopleCopy = new List<Person>(People);
+            People = null;
             OnPropertyChanged(nameof(People));
-            
+            People = peopleCopy;
+            OnPropertyChanged(nameof(People));
+
         }
         public Person SelectedPerson
         {
