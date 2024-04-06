@@ -2,14 +2,16 @@
 using _02Kharchenko.Tools;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace _02Kharchenko
 {
-    public class Person
+    public class Person : INotifyPropertyChanged
     {
         private string _name;
         private string _surname;
@@ -19,6 +21,7 @@ namespace _02Kharchenko
         private string _sunSign;
         private string _chineeseSign;
         private bool? _isBirthday = null;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public Person(string name, string surname, string email, DateTime? birthdate)
         {
@@ -46,6 +49,8 @@ namespace _02Kharchenko
             get { return _name; }
             set
             {
+                if (string.IsNullOrWhiteSpace(value))
+                    System.Windows.MessageBox.Show("Name can't be empty.");
                 _name = value;
             }
         }
@@ -55,6 +60,8 @@ namespace _02Kharchenko
             get { return _surname; }
             set
             {
+                if (string.IsNullOrWhiteSpace(value))
+                    System.Windows.MessageBox.Show("Surname can't be empty.");
                 _surname = value;
             }
 
@@ -65,49 +72,92 @@ namespace _02Kharchenko
             get { return _email; }
             set
             {
-                checkEmail();
-                _email = value;
+                try
+                {
+                    checkEmail(value);
+                    _email = value;
+                }
+                catch(ArgumentNullException e)
+                {
+                    System.Windows.MessageBox.Show("Email can't be empty.");
+                }
+                catch(IncorrectEmailException e)
+                {
+                    System.Windows.MessageBox.Show(e.Message);
+                }
             }
 
         }
 
-        private void checkEmail()
+        private void checkEmail(string email)
         {
-            if (string.IsNullOrWhiteSpace(Email))
+            if (string.IsNullOrWhiteSpace(email))
                 throw new ArgumentNullException(nameof(Email));
 
-            string[] parts = Email.Split('@');
+            string[] parts = email.Split('@');
             if (parts.Length != 2)
-                throw new IncorrectEmailException(Email, " Email must stick to format 'joeschmoe@mydomain.com' .");
+                throw new IncorrectEmailException(email, " Email must stick to format 'joeschmoe@mydomain.com' .");
 
             string[] middleEnd = parts[1].Split('.');
             if (middleEnd.Length != 2)
-                throw new IncorrectEmailException(Email, " Email must stick to format 'joeschmoe@mydomain.com' .");
+                throw new IncorrectEmailException(email, " Email must stick to format 'joeschmoe@mydomain.com' .");
         }
         public DateTime? Birthdate
         {
             get { return _birthdate; }
             set
             {
-                _birthdate = value;
+                try
+                {
+                    checkBirthdate(value);
+                    _birthdate = value;
+                    this.Proceed();
+
+                    OnPropertyChanged(nameof(IsAdult));
+                    OnPropertyChanged(nameof(SunSign));
+                    OnPropertyChanged(nameof(ChineseSign));
+                    OnPropertyChanged(nameof(IsBirthday));
+                }
+                catch (ArgumentNullException e)
+                {
+                    System.Windows.MessageBox.Show("Birthday can't be empty.");
+                }
+                catch(NonExistingBirthdateException e)
+                {
+                    System.Windows.MessageBox.Show(e.Message);
+                }
+                catch (ExpiredBirthdateException e)
+                {
+                    System.Windows.MessageBox.Show(e.Message);
+                }
             }
         }
 
-        public void checkBirthdate()
+        public void checkBirthdate(DateTime? date)
         {
-            if (Birthdate > DateTime.UtcNow)
+            if(date == null)
             {
-                throw new Exception("Picked date from the future.");
+                throw new ArgumentNullException(nameof(Birthdate));
             }
-            if (Goroscope.calculateAge((DateTime)Birthdate) > 135)
+            if (date > DateTime.UtcNow)
             {
-                throw new Exception("You are > 135 years old");
+                throw new NonExistingBirthdateException((DateTime)date);
+            }
+            if (Goroscope.calculateAge((DateTime)date) > 135)
+            {
+                throw new ExpiredBirthdateException((DateTime)date);
             }
         }
 
         public bool? IsAdult
         {
-            get { return _isAdult; }
+            get {
+                if(_isAdult == null)
+                {
+                    this.Proceed();
+                }
+                return _isAdult; 
+            }
             set
             {
                 _isAdult = value;
@@ -116,7 +166,13 @@ namespace _02Kharchenko
 
         public string SunSign
         {
-            get { return _sunSign; }
+            get {
+                if (_sunSign == null)
+                {
+                    this.Proceed();
+                }
+                return _sunSign; 
+            }
             set
             {
                 _sunSign = value;
@@ -125,7 +181,13 @@ namespace _02Kharchenko
 
         public string ChineseSign
         {
-            get { return _chineeseSign; }
+            get {
+                if (_chineeseSign == null)
+                {
+                    this.Proceed();
+                }
+                return _chineeseSign; 
+            }
             set
             {
                 _chineeseSign = value;
@@ -134,11 +196,22 @@ namespace _02Kharchenko
 
         public bool? IsBirthday
         {
-            get { return _isBirthday; }
+            get {
+                if (_isBirthday == null)
+                {
+                    this.Proceed();
+                }
+                return _isBirthday;
+            }
             set
             {
                 _isBirthday = value;
             }
+        }
+
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

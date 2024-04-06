@@ -17,12 +17,12 @@ namespace _02Kharchenko.Tools
         }
         public RelayCommand(Action execute, Func<bool> canExecute)
         {
-            if(execute == null)
+            if (execute == null)
             {
                 throw new ArgumentNullException(nameof(execute));
             }
             _execute = (o) => execute?.Invoke();
-            _canExecute = (o) => 
+            _canExecute = (o) =>
             {
                 return canExecute == null ? true : canExecute.Invoke();
             };

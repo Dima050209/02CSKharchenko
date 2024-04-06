@@ -32,12 +32,7 @@ namespace _02Kharchenko.Tools
                     throw new ArgumentNullException(nameof(source.Birthdate));
                 }
 
-
                 Goroscope.checkBirthday((DateTime)source.Birthdate);
-                if (Goroscope.isBirthday(((DateTime)source.Birthdate).Month, ((DateTime)source.Birthdate).Day))
-                {
-                    System.Windows.MessageBox.Show("З Днем народження!!!");
-                }
 
                 Thread thread1 = new Thread(() =>
                 {
