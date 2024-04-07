@@ -16,6 +16,9 @@ namespace _02Kharchenko.ViewModels
     {
 
         public event PropertyChangedEventHandler? PropertyChanged;
+        // list to save, contains all people
+        private List<Person> _peopleList;
+        // list to show
         private List<Person> _people;
         private RelayCommand _deletePersonCommand;
         private RelayCommand _addPersonCommand;
@@ -29,7 +32,7 @@ namespace _02Kharchenko.ViewModels
         private RelayCommand _sortByChineseSign;
         private RelayCommand _sortByIsBirthday;
 
-        private bool _deletionInExecution;
+        //private bool _deletionInExecution;
         private Person _selectedPerson;
        
         private string _addName;
@@ -37,22 +40,128 @@ namespace _02Kharchenko.ViewModels
         private string _addEmail;
         private DateTime? _addBirthday;
 
-        public enum SortMethod
+        private string _filterByName;
+        private string _filterBySurname;
+        private string _filterByEmail;
+        private DateTime? _filterByBirthdate;
+        private bool _filterByIsAdult;
+        private string _filterBySunSign;
+        private string _filterByChineseSign;
+        private bool _filterByIsBirthday;
+        public string FilterByName
         {
-            ByName,
-            BySurname,
-            ByEmail,
-            ByBirthdate,
-            ByIsAdult,
-            BySunSign, 
-            ByChineseSign,
-            ByIsBirthday
+            get { return _filterByName; }
+            set { 
+                _filterByName = value;
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    var filteredPeople = _peopleList.Where(p => p.Name.Contains(value));
+                    _people = filteredPeople.ToList();
+                    updateList();
+                }
+            }
         }
+       
+        public string FilterBySurname
+        {
+            get { return _filterBySurname; }
+            set { 
+                _filterBySurname = value;
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    var filteredPeople = _peopleList.Where(p => p.Surname.Contains(value));
+                    _people = filteredPeople.ToList();
+                    updateList();
+                }
+            }
+        }
+
+        public string FilterByEmail
+        {
+            get { return _filterByEmail; }
+            set {
+                _filterByEmail = value;
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    var filteredPeople = _peopleList.Where(p => p.Email.Contains(value));
+                    _people = filteredPeople.ToList();
+                    updateList();
+                }
+            }
+        }
+
+        public DateTime? FilterByBirthdate
+        {
+            get { return _filterByBirthdate; }
+            set { 
+                _filterByBirthdate = value;
+                if (value != null)
+                {
+                    var filteredPeople = _peopleList.Where(p => p.Birthdate == value);
+                    _people = filteredPeople.ToList();
+                    updateList();
+                }
+            }
+        }
+
+        public bool FilterByIsAdult
+        {
+            get { return _filterByIsAdult; }
+            set { 
+                _filterByIsAdult = value;
+                
+                var filteredPeople = _peopleList.Where(p => (bool)p.IsAdult);
+                _people = filteredPeople.ToList();
+                updateList();
+                
+            }
+        }
+
+        public string FilterBySunSign
+        {
+            get { return _filterBySunSign; }
+            set {
+                _filterBySunSign = value;
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    var filteredPeople = _peopleList.Where(p => p.SunSign.Contains(value));
+                    _people = filteredPeople.ToList();
+                    updateList();
+                }
+            }
+        }
+
+        public string FilterByChineseSign
+        {
+            get { return _filterByChineseSign; }
+            set {
+                _filterByChineseSign = value;
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    var filteredPeople = _peopleList.Where(p => p.ChineseSign.Contains(value));
+                    _people = filteredPeople.ToList();
+                    updateList();
+                }
+            }
+        }
+
+        public bool FilterByIsBirthday
+        {
+            get { return _filterByIsBirthday; }
+            set { 
+                _filterByIsBirthday = value;
+                var filteredPeople = _peopleList.Where(p => (bool)p.IsBirthday);
+                _people = filteredPeople.ToList();
+                updateList();
+
+            }
+        }
+
 
         public PeopleListViewModel()
         {
             _people = new List<Person>();
-            _deletionInExecution = false;
+            //_deletionInExecution = false;
             _selectedPerson = null;
             
 
@@ -67,6 +176,7 @@ namespace _02Kharchenko.ViewModels
                 Person newPerson = new Person(name, surname, email, birthdate);
                 _people.Add(newPerson);
             }
+            _peopleList = new List<Person>(_people);
         }
 
         public RelayCommand SortByNameCommand
@@ -140,7 +250,6 @@ namespace _02Kharchenko.ViewModels
 
         private void SortByName()
         {
-            // Логіка сортування за іменем
             var sortedPeople = from person in _people
                                orderby person.Name ascending
                                select person;
@@ -150,7 +259,6 @@ namespace _02Kharchenko.ViewModels
 
         private void SortBySurname()
         {
-            // Логіка сортування за прізвищем
             var sortedPeople = from person in _people
                            orderby person.Surname ascending
                            select person;
@@ -160,7 +268,6 @@ namespace _02Kharchenko.ViewModels
 
         private void SortByEmail()
         {
-            // Логіка сортування за електронною поштою
             var sortedPeople = from person in _people
                                orderby person.Email ascending
                                select person;
@@ -170,7 +277,6 @@ namespace _02Kharchenko.ViewModels
 
         private void SortByBirthdate()
         {
-            // Логіка сортування за датою народження
             var sortedPeople = from person in _people
                                orderby person.Birthdate ascending
                                select person;
@@ -180,7 +286,6 @@ namespace _02Kharchenko.ViewModels
 
         private void SortByIsAdult()
         {
-            // Логіка сортування за визначенням "дорослий"
             var sortedPeople = from person in _people
                            orderby person.IsAdult ascending
                            select person;
@@ -190,7 +295,6 @@ namespace _02Kharchenko.ViewModels
 
         private void SortBySunSign()
         {
-            // Логіка сортування за знаком зодіаку
             var sortedPeople = from person in _people
                            orderby person.SunSign ascending
                            select person;
@@ -200,7 +304,6 @@ namespace _02Kharchenko.ViewModels
 
         private void SortByChineseSign()
         {
-            // Логіка сортування за китайським знаком зодіаку
             var sortedPeople = from person in _people
                            orderby person.ChineseSign ascending
                            select person;
@@ -210,7 +313,6 @@ namespace _02Kharchenko.ViewModels
 
         private void SortByIsBirthday()
         {
-            // Логіка сортування за позначенням "день народження"
             var sortedPeople = from person in _people 
                                orderby person.IsBirthday ascending 
                                select person;
@@ -237,6 +339,7 @@ namespace _02Kharchenko.ViewModels
             if (index != -1)
             {
                 People.RemoveAt(index);
+                _peopleList.RemoveAt(index);
             }
             _selectedPerson = null;
             updateList();
@@ -272,6 +375,7 @@ namespace _02Kharchenko.ViewModels
         {
             Person newPerson = new Person(_addName, _addSurame, _addEmail, _addBirthday);
             _people.Add(newPerson);
+            _peopleList.Add(newPerson);
             updateList();
             AddName = null;
             AddSurname = null;
