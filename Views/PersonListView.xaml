@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:_02Kharchenko.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="1000" MinWidth="900">
+             d:DesignHeight="900" d:DesignWidth="1000" MinWidth="900">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid>
             <Grid.RowDefinitions>
@@ -37,7 +37,7 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
-                    
+                    <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -96,6 +96,8 @@
 
                 <TextBlock Grid.Row="19" Grid.Column="0" Text="День народження:" Margin="10" HorizontalAlignment="Left"></TextBlock>
                 <CheckBox Grid.Row="19" Grid.Column="1" IsChecked="{Binding FilterByIsBirthday}" Margin="5" ></CheckBox>
+
+                <Button Grid.Row="20" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="Зберегти" Command="{Binding SaveCommand}"></Button>
 
             </Grid>
             <DataGrid x:Name="DGPeople" Grid.Column="1" ItemsSource="{Binding People}" SelectedItem="{Binding SelectedPerson}"  AlternatingRowBackground="AntiqueWhite" CanUserAddRows="False" AutoGenerateColumns="False" >

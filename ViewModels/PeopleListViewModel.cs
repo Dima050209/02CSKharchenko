@@ -3,15 +3,20 @@ using _02Kharchenko.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace _02Kharchenko.ViewModels
 {
+    [Serializable]
     class PeopleListViewModel : INotifyPropertyChanged
     {
 
@@ -31,6 +36,8 @@ namespace _02Kharchenko.ViewModels
         private RelayCommand _sortBySunSign;
         private RelayCommand _sortByChineseSign;
         private RelayCommand _sortByIsBirthday;
+
+        private RelayCommand _saveCommand;
 
         //private bool _deletionInExecution;
         private Person _selectedPerson;
@@ -180,6 +187,24 @@ namespace _02Kharchenko.ViewModels
                 _people.Add(newPerson);
             }
             _peopleList = new List<Person>(_people);
+        }
+
+        public RelayCommand SaveCommand
+        {
+            get
+            {
+                return _saveCommand ??= new RelayCommand(Save, CanExecuteSave);
+            }
+        }
+        private bool CanExecuteSave()
+        {
+            return true;
+        }
+
+        private void Save()
+        {
+            string serialized = JsonSerializer.Serialize(_peopleList);
+            File.WriteAllText("people.json", serialized);
         }
 
         public RelayCommand SortByNameCommand
