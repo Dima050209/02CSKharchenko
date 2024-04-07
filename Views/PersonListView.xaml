@@ -6,102 +6,142 @@
              xmlns:local="clr-namespace:_02Kharchenko.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="1000" MinWidth="900">
-    <Grid>
-        <DataGrid x:Name="DGPeople" ItemsSource="{Binding People}" SelectedItem="{Binding SelectedPerson}"  AlternatingRowBackground="AntiqueWhite" CanUserAddRows="False" AutoGenerateColumns="False" >
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Name">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}" Padding="10"></TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.CellEditingTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Name}"  Padding="10"></TextBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellEditingTemplate>
-                </DataGridTemplateColumn>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
 
-                <DataGridTemplateColumn Header="Surname">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Surname}"  Padding="10"></TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.CellEditingTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Surname}"  Padding="10"></TextBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellEditingTemplate>
-                </DataGridTemplateColumn>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Ім'я:" Margin="10"></TextBlock>
+                <TextBox Name="TbName" Grid.Row="0" Grid.Column="1" Text="{Binding AddName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"></TextBox>
 
-                <DataGridTemplateColumn Header="Email">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Email}"  Padding="10"></TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.CellEditingTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Email}"  Padding="10"></TextBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellEditingTemplate>
-                </DataGridTemplateColumn>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Прізвище:" Margin="10"></TextBlock>
+                <TextBox Name="TbSurname" Grid.Row="1" Grid.Column="1" Text="{Binding AddSurname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"></TextBox>
 
-                <DataGridTemplateColumn Header="Birthday">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Birthdate,StringFormat=d}"  Padding="10"></TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.CellEditingTemplate>
-                        <DataTemplate>
-                            <DatePicker SelectedDate="{Binding Birthdate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Padding="10"></DatePicker>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellEditingTemplate>
-                </DataGridTemplateColumn>
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Email:" Margin="10"></TextBlock>
+                <TextBox Name="TbEmail" Grid.Row="2" Grid.Column="1" Text="{Binding AddEmail, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Margin="5"></TextBox>
 
-                <DataGridCheckBoxColumn Header="IsAdult" Binding="{Binding Path=IsAdult}"></DataGridCheckBoxColumn>
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Дата народження:" Margin="10" HorizontalAlignment="Left"></TextBlock>
+                <DatePicker Grid.Row="3" Grid.Column="1" Width="230"  Margin="5" SelectedDate="{Binding AddBirthday, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxWidth="300" HorizontalAlignment="Left"></DatePicker>
 
-                <DataGridTemplateColumn Header="SunSign">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding SunSign}"  Padding="10"></TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.CellEditingTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding SunSign}"  Padding="10"></TextBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellEditingTemplate>
-                </DataGridTemplateColumn>
+                <Button  Name="BProcess" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="Додати" Command="{Binding AddPersonCommand}"></Button>
 
-                <DataGridTemplateColumn Header="ChineseSign">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding ChineseSign}"  Padding="10"></TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.CellEditingTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding ChineseSign}"  Padding="10"></TextBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellEditingTemplate>
-                </DataGridTemplateColumn>
+            </Grid>
+            <DataGrid x:Name="DGPeople" Grid.Column="1" ItemsSource="{Binding People}" SelectedItem="{Binding SelectedPerson}"  AlternatingRowBackground="AntiqueWhite" CanUserAddRows="False" AutoGenerateColumns="False" >
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Name">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" Padding="1"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Name}"  Padding="1"></TextBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
 
-                <DataGridCheckBoxColumn Header="IsBirthday" Binding="{Binding Path=IsBirthday}"></DataGridCheckBoxColumn>
+                    <DataGridTemplateColumn Header="Surname">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Surname}"  Padding="1"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Surname}"  Padding="1"></TextBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Delete" 
-                            Command="{Binding DataContext.DeletePersonCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                            CommandParameter="{Binding}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Email">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Email}"  Padding="1"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Email}"  Padding="1"></TextBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
 
-            </DataGrid.Columns>
-        </DataGrid>
+                    <DataGridTemplateColumn Header="Birthday">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Birthdate,StringFormat=d}"  Padding="1"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <DatePicker SelectedDate="{Binding Birthdate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Padding="1"></DatePicker>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridCheckBoxColumn Header="IsAdult" Binding="{Binding Path=IsAdult}"></DataGridCheckBoxColumn>
+
+                    <DataGridTemplateColumn Header="SunSign">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding SunSign}"  Padding="1"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding SunSign}"  Padding="1"></TextBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="ChineseSign">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ChineseSign}"  Padding="1"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding ChineseSign}"  Padding="1"></TextBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridCheckBoxColumn Header="IsBirthday" Binding="{Binding Path=IsBirthday}"></DataGridCheckBoxColumn>
+
+                     <DataGridTemplateColumn>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Button Content="Delete" 
+                                Command="{Binding DataContext.DeletePersonCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                CommandParameter="{Binding}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+            </DataGrid>
+        
     </Grid>
+    </ScrollViewer>
 </UserControl>

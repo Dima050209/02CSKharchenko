@@ -18,14 +18,21 @@ namespace _02Kharchenko.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
         private List<Person> _people;
         private RelayCommand _deletePersonCommand;
+        private RelayCommand _addPersonCommand;
         private bool _deletionInExecution;
         private Person _selectedPerson;
+       
+        private string _addName;
+        private string _addSurame;
+        private string _addEmail;
+        private DateTime? _addBirthday;
 
         public PeopleListViewModel()
         {
             _people = new List<Person>();
             _deletionInExecution = false;
             _selectedPerson = null;
+            
 
             Random random = new Random();
             // Adding 50 persons to the list
@@ -44,11 +51,11 @@ namespace _02Kharchenko.ViewModels
         {
             get
             {
-                return _deletePersonCommand ??= new RelayCommand(DeletePerson, CanExecute);
+                return _deletePersonCommand ??= new RelayCommand(DeletePerson, CanExecuteDeletion);
             }
         }
 
-        private bool CanExecute()
+        private bool CanExecuteDeletion()
         {
             return true;
         }
@@ -61,17 +68,78 @@ namespace _02Kharchenko.ViewModels
                 People.RemoveAt(index);
             }
             _selectedPerson = null;
+            updateList();
+
+        }
+
+        private void updateList()
+        {
             List<Person> peopleCopy = new List<Person>(People);
             People = null;
             OnPropertyChanged(nameof(People));
             People = peopleCopy;
             OnPropertyChanged(nameof(People));
+        }
+
+        public RelayCommand AddPersonCommand
+        {
+            get
+            {
+                return _addPersonCommand ??= new RelayCommand(AddPerson, CanExecuteAdding);
+            }
+        }
+
+        private bool CanExecuteAdding()
+        {
+            return !string.IsNullOrWhiteSpace(_addName)
+                && !string.IsNullOrWhiteSpace(_addSurame)
+                && !string.IsNullOrWhiteSpace(_addEmail)
+                && _addBirthday != null;
+        }
+
+        private void AddPerson()
+        {
+            Person newPerson = new Person(_addName, _addSurame, _addEmail, _addBirthday);
+            _people.Add(newPerson);
+            updateList();
+            AddName = null;
+            AddSurname = null;
+            AddEmail = null;
+            AddBirthday = null;
+            OnPropertyChanged(nameof(AddName));
+            OnPropertyChanged(nameof(AddSurname));
+            OnPropertyChanged(nameof(AddEmail));
+            OnPropertyChanged(nameof(AddBirthday));
 
         }
         public Person SelectedPerson
         {
             get { return _selectedPerson; }
             set { _selectedPerson = value; }
+        }
+
+        public string AddName
+        {
+            get { return _addName; }
+            set { _addName = value; }
+        }
+
+        public string AddSurname
+        {
+            get { return _addSurame; }
+            set { _addSurame = value; }
+        }
+
+        public string AddEmail
+        {
+            get { return _addEmail; }
+            set { _addEmail = value; }
+        }
+
+        public DateTime? AddBirthday
+        {
+            get { return _addBirthday; }
+            set { _addBirthday = value; }
         }
 
         public List<Person> People
