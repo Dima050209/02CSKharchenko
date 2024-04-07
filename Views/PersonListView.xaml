@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:_02Kharchenko.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="1000" MinWidth="900">
+             d:DesignHeight="700" d:DesignWidth="1000" MinWidth="900">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid>
             <Grid.RowDefinitions>
@@ -22,6 +22,15 @@
                     <RowDefinition Height="40"></RowDefinition>
                     <RowDefinition Height="40"></RowDefinition>
                     <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -42,7 +51,30 @@
                 <TextBlock Grid.Row="3" Grid.Column="0" Text="Дата народження:" Margin="10" HorizontalAlignment="Left"></TextBlock>
                 <DatePicker Grid.Row="3" Grid.Column="1" Width="230"  Margin="5" SelectedDate="{Binding AddBirthday, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxWidth="300" HorizontalAlignment="Left"></DatePicker>
 
-                <Button  Name="BProcess" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="Додати" Command="{Binding AddPersonCommand}"></Button>
+                <Button Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="Додати" Command="{Binding AddPersonCommand}"></Button>
+
+                <TextBlock Grid.Row="5" Grid.Column="0" Text="Сортування:" Margin="10" HorizontalAlignment="Left"></TextBlock>
+
+                <Button Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="За іменем" Command="{Binding SortByNameCommand}"></Button>
+                <Button Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="За прізвищем" Command="{Binding SortBySurnameCommand}"></Button>
+                <Button Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="За email" Command="{Binding SortByEmailCommand}"></Button>
+                <Button Grid.Row="9" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="За датою народження" Command="{Binding SortByBirthdateCommand}"></Button>
+                <Button Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="За повноліттям" Command="{Binding SortByIsAdultCommand}"></Button>
+                <Button Grid.Row="7" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="За східним ЗЗ" Command="{Binding SortBySunSignCommand}"></Button>
+                <Button Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="За китайським ЗЗ" Command="{Binding SortByChineseSignCommand}"></Button>
+                <Button Grid.Row="9" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="За днем народження" Command="{Binding SortByIsBirthdayCommand}"></Button>
+
+
+                <!--<TextBlock Grid.Row="10" Grid.Column="0" Text="Фільтрація:" Margin="10" HorizontalAlignment="Left"></TextBlock>
+
+                <Button Grid.Row="11" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="За іменем" Command="{Binding SortByNameCommand}"></Button>
+                <Button Grid.Row="12" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="За прізвищем" Command="{Binding SortByNameCommand}"></Button>
+                <Button Grid.Row="13" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="За email" Command="{Binding SortByNameCommand}"></Button>
+                <Button Grid.Row="14" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="За датою народження" Command="{Binding SortByNameCommand}"></Button>
+                <Button Grid.Row="11" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="За повноліттям" Command="{Binding SortByNameCommand}"></Button>
+                <Button Grid.Row="12" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="За східним ЗЗ" Command="{Binding SortByNameCommand}"></Button>
+                <Button Grid.Row="13" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="За китайським ЗЗ" Command="{Binding SortByNameCommand}"></Button>
+                <Button Grid.Row="14" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="5" Height="25" Content="За днем народження" Command="{Binding SortByNameCommand}"></Button>-->
 
             </Grid>
             <DataGrid x:Name="DGPeople" Grid.Column="1" ItemsSource="{Binding People}" SelectedItem="{Binding SelectedPerson}"  AlternatingRowBackground="AntiqueWhite" CanUserAddRows="False" AutoGenerateColumns="False" >

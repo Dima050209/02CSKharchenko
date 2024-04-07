@@ -19,6 +19,16 @@ namespace _02Kharchenko.ViewModels
         private List<Person> _people;
         private RelayCommand _deletePersonCommand;
         private RelayCommand _addPersonCommand;
+
+        private RelayCommand _sortByName;
+        private RelayCommand _sortBySurname;
+        private RelayCommand _sortByEmail;
+        private RelayCommand _sortByBirthdate;
+        private RelayCommand _sortByIsAdult;
+        private RelayCommand _sortBySunSign;
+        private RelayCommand _sortByChineseSign;
+        private RelayCommand _sortByIsBirthday;
+
         private bool _deletionInExecution;
         private Person _selectedPerson;
        
@@ -26,6 +36,18 @@ namespace _02Kharchenko.ViewModels
         private string _addSurame;
         private string _addEmail;
         private DateTime? _addBirthday;
+
+        public enum SortMethod
+        {
+            ByName,
+            BySurname,
+            ByEmail,
+            ByBirthdate,
+            ByIsAdult,
+            BySunSign, 
+            ByChineseSign,
+            ByIsBirthday
+        }
 
         public PeopleListViewModel()
         {
@@ -45,6 +67,155 @@ namespace _02Kharchenko.ViewModels
                 Person newPerson = new Person(name, surname, email, birthdate);
                 _people.Add(newPerson);
             }
+        }
+
+        public RelayCommand SortByNameCommand
+        {
+            get
+            {
+                return _sortByName ??= new RelayCommand(SortByName, CanExecuteSort);
+            }
+        }
+
+        public RelayCommand SortBySurnameCommand
+        {
+            get
+            {
+                return _sortBySurname ??= new RelayCommand(SortBySurname, CanExecuteSort);
+            }
+        }
+
+        public RelayCommand SortByEmailCommand
+        {
+            get
+            {
+                return _sortByEmail ??= new RelayCommand(SortByEmail, CanExecuteSort);
+            }
+        }
+
+        public RelayCommand SortByBirthdateCommand
+        {
+            get
+            {
+                return _sortByBirthdate ??= new RelayCommand(SortByBirthdate, CanExecuteSort);
+            }
+        }
+
+        public RelayCommand SortByIsAdultCommand
+        {
+            get
+            {
+                return _sortByIsAdult ??= new RelayCommand(SortByIsAdult, CanExecuteSort);
+            }
+        }
+
+        public RelayCommand SortBySunSignCommand
+        {
+            get
+            {
+                return _sortBySunSign ??= new RelayCommand(SortBySunSign, CanExecuteSort);
+            }
+        }
+
+        public RelayCommand SortByChineseSignCommand
+        {
+            get
+            {
+                return _sortByChineseSign ??= new RelayCommand(SortByChineseSign, CanExecuteSort);
+            }
+        }
+
+        public RelayCommand SortByIsBirthdayCommand
+        {
+            get
+            {
+                return _sortByIsBirthday ??= new RelayCommand(SortByIsBirthday, CanExecuteSort);
+            }
+        }
+
+        private bool CanExecuteSort()
+        {
+            return true;
+        }
+
+        private void SortByName()
+        {
+            // Логіка сортування за іменем
+            var sortedPeople = from person in _people
+                               orderby person.Name ascending
+                               select person;
+            _people = sortedPeople.ToList();
+            updateList();
+        }
+
+        private void SortBySurname()
+        {
+            // Логіка сортування за прізвищем
+            var sortedPeople = from person in _people
+                           orderby person.Surname ascending
+                           select person;
+            _people = sortedPeople.ToList();
+            updateList();
+        }
+
+        private void SortByEmail()
+        {
+            // Логіка сортування за електронною поштою
+            var sortedPeople = from person in _people
+                               orderby person.Email ascending
+                               select person;
+            _people = sortedPeople.ToList();
+            updateList();
+        }
+
+        private void SortByBirthdate()
+        {
+            // Логіка сортування за датою народження
+            var sortedPeople = from person in _people
+                               orderby person.Birthdate ascending
+                               select person;
+            _people = sortedPeople.ToList();
+            updateList();
+        }
+
+        private void SortByIsAdult()
+        {
+            // Логіка сортування за визначенням "дорослий"
+            var sortedPeople = from person in _people
+                           orderby person.IsAdult ascending
+                           select person;
+            _people = sortedPeople.ToList();
+            updateList();
+        }
+
+        private void SortBySunSign()
+        {
+            // Логіка сортування за знаком зодіаку
+            var sortedPeople = from person in _people
+                           orderby person.SunSign ascending
+                           select person;
+            _people = sortedPeople.ToList();
+            updateList();
+        }
+
+        private void SortByChineseSign()
+        {
+            // Логіка сортування за китайським знаком зодіаку
+            var sortedPeople = from person in _people
+                           orderby person.ChineseSign ascending
+                           select person;
+            _people = sortedPeople.ToList();
+            updateList();
+        }
+
+        private void SortByIsBirthday()
+        {
+            // Логіка сортування за позначенням "день народження"
+            var sortedPeople = from person in _people 
+                               orderby person.IsBirthday ascending 
+                               select person;
+            _people = sortedPeople.ToList();
+            updateList();
         }
 
         public RelayCommand DeletePersonCommand
