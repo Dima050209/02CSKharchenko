@@ -48,17 +48,51 @@ namespace _02Kharchenko.ViewModels
         private string _filterBySunSign;
         private string _filterByChineseSign;
         private bool _filterByIsBirthday;
+
+        public void filterWithParameters()
+        {
+            List<Person> result = new List<Person>(_peopleList);
+            if (!string.IsNullOrWhiteSpace(_filterByName))
+            {
+                result = result.Where(p => p.Name.Contains(_filterByName)).ToList();
+            }
+            if (!string.IsNullOrWhiteSpace(_filterBySurname))
+            {
+                result = result.Where(p => p.Surname.Contains(_filterBySurname)).ToList();
+            }
+            if (!string.IsNullOrWhiteSpace(_filterByEmail))
+            {
+                result = result.Where(p => p.Email.Contains(_filterByEmail)).ToList();
+            }
+            if (_filterByBirthdate != null)
+            {
+                result = result.Where(p => p.Birthdate == _filterByBirthdate).ToList();
+            }
+            if (_filterByIsAdult)
+            {
+                result = result.Where(p => (bool)p.IsAdult).ToList();
+            }
+            if (!string.IsNullOrWhiteSpace(_filterBySunSign))
+            {
+                result = result.Where(p => p.SunSign.Contains(_filterBySunSign)).ToList();
+            }
+            if (!string.IsNullOrWhiteSpace(_filterByChineseSign))
+            {
+                result = result.Where(p => p.ChineseSign.Contains(_filterByChineseSign)).ToList();
+            }
+            if (_filterByIsBirthday)
+            {
+                result = result.Where(p => (bool)p.IsBirthday).ToList();
+            }
+            _people = result;
+            updateList();
+        }
         public string FilterByName
         {
             get { return _filterByName; }
             set { 
                 _filterByName = value;
-                if (!string.IsNullOrWhiteSpace(value))
-                {
-                    var filteredPeople = _peopleList.Where(p => p.Name.Contains(value));
-                    _people = filteredPeople.ToList();
-                    updateList();
-                }
+                filterWithParameters();
             }
         }
        
@@ -67,12 +101,7 @@ namespace _02Kharchenko.ViewModels
             get { return _filterBySurname; }
             set { 
                 _filterBySurname = value;
-                if (!string.IsNullOrWhiteSpace(value))
-                {
-                    var filteredPeople = _peopleList.Where(p => p.Surname.Contains(value));
-                    _people = filteredPeople.ToList();
-                    updateList();
-                }
+                filterWithParameters();
             }
         }
 
@@ -81,12 +110,7 @@ namespace _02Kharchenko.ViewModels
             get { return _filterByEmail; }
             set {
                 _filterByEmail = value;
-                if (!string.IsNullOrWhiteSpace(value))
-                {
-                    var filteredPeople = _peopleList.Where(p => p.Email.Contains(value));
-                    _people = filteredPeople.ToList();
-                    updateList();
-                }
+                filterWithParameters();
             }
         }
 
@@ -95,12 +119,7 @@ namespace _02Kharchenko.ViewModels
             get { return _filterByBirthdate; }
             set { 
                 _filterByBirthdate = value;
-                if (value != null)
-                {
-                    var filteredPeople = _peopleList.Where(p => p.Birthdate == value);
-                    _people = filteredPeople.ToList();
-                    updateList();
-                }
+                filterWithParameters();
             }
         }
 
@@ -109,11 +128,8 @@ namespace _02Kharchenko.ViewModels
             get { return _filterByIsAdult; }
             set { 
                 _filterByIsAdult = value;
-                
-                var filteredPeople = _peopleList.Where(p => (bool)p.IsAdult);
-                _people = filteredPeople.ToList();
-                updateList();
-                
+                filterWithParameters();
+
             }
         }
 
@@ -122,12 +138,7 @@ namespace _02Kharchenko.ViewModels
             get { return _filterBySunSign; }
             set {
                 _filterBySunSign = value;
-                if (!string.IsNullOrWhiteSpace(value))
-                {
-                    var filteredPeople = _peopleList.Where(p => p.SunSign.Contains(value));
-                    _people = filteredPeople.ToList();
-                    updateList();
-                }
+                filterWithParameters();
             }
         }
 
@@ -136,12 +147,7 @@ namespace _02Kharchenko.ViewModels
             get { return _filterByChineseSign; }
             set {
                 _filterByChineseSign = value;
-                if (!string.IsNullOrWhiteSpace(value))
-                {
-                    var filteredPeople = _peopleList.Where(p => p.ChineseSign.Contains(value));
-                    _people = filteredPeople.ToList();
-                    updateList();
-                }
+                filterWithParameters();
             }
         }
 
@@ -150,10 +156,7 @@ namespace _02Kharchenko.ViewModels
             get { return _filterByIsBirthday; }
             set { 
                 _filterByIsBirthday = value;
-                var filteredPeople = _peopleList.Where(p => (bool)p.IsBirthday);
-                _people = filteredPeople.ToList();
-                updateList();
-
+                filterWithParameters();
             }
         }
 
@@ -335,13 +338,13 @@ namespace _02Kharchenko.ViewModels
 
         private void DeletePerson()
         {
-            int index = People.IndexOf(_selectedPerson);
+            int index = _peopleList.IndexOf(_selectedPerson);
             if (index != -1)
             {
-                People.RemoveAt(index);
                 _peopleList.RemoveAt(index);
             }
             _selectedPerson = null;
+            filterWithParameters();
             updateList();
 
         }
@@ -376,6 +379,7 @@ namespace _02Kharchenko.ViewModels
             Person newPerson = new Person(_addName, _addSurame, _addEmail, _addBirthday);
             _people.Add(newPerson);
             _peopleList.Add(newPerson);
+            filterWithParameters();
             updateList();
             AddName = null;
             AddSurname = null;
